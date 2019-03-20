@@ -9,17 +9,33 @@
   </head>
   
   <body>
-    <div id="app">
+    <div id="app" class="section columns">
+      <div class="column is-6-desktop is-8-mobile is-offset-2-mobile is-offset-3-desktop">
       <div>
         <input v-model="query" type="search" @keyup.enter="get" class="input" placeholder="Enter song name and press enter">
       </div>
-      <div class="content" v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: grey;' : ''">
-        {{ song.name }}
+      <div class="content" v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: lightgrey;' : ''">
+        <p @click="currentSongIndex = id">
+          {{ song.name }}
+        </p>
       </div>
       
-      <button class="button" @click="currentSongIndex--" v-if="currentSongIndex > 0">previous</button>
-      <audio :src="songUrl" controls autoplay v-if="response.length"></audio>
-      <button class="button" @click="currentSongIndex++" v-if="currentSongIndex < response.length">next</button>
+        <div class="columns has-text-centered" style="position: fixed; bottom: 0; right: 0; left: 0; background-color: lightblue;">
+          <div class="column is-3" v-if="">
+            {{ response.length ? response[currentSongIndex].name : '' }}
+          </div>
+          <div class="column is-1 is-offset-3">
+            <button class="button" @click="currentSongIndex--" disabled="currentSongIndex > 0">previous</button>
+          </div>
+          <div class="column is-3">
+            <audio :src="songUrl" controls autoplay v-if="response.length"></audio>
+          </div>
+          <div class="column is-1">
+            <button class="button" @click="currentSongIndex++" disabled="currentSongIndex < response.length">next</button>
+          </div>
+          
+        </div>
+      </div>
     </div>
     
     <script>
