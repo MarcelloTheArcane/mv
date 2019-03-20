@@ -10,9 +10,10 @@
   
   <body>
     <div id="app" class="section columns">
-      <div class="column is-6-desktop is-8-mobile is-offset-2-mobile is-offset-3-desktop">
+      <div class="column is-6-desktop is-12-mobile is-offset-3-desktop">
       <div>
         <input v-model="query" type="search" @keyup.enter="get" class="input" placeholder="Enter song name and press enter">
+        <p v-if="loading">loading...</p>
       </div>
       <div class="content" v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: lightgrey;' : ''">
         <p @click="currentSongIndex = id">
@@ -52,6 +53,7 @@ new Vue({
   },
   methods: {
     get () {
+      this.loading = true
       fetch(this.baseUrl + 'get_new_station_by_search?type=song&title=' + this.query)
       .then(r => r.text())
       .then(m3u => {
@@ -63,6 +65,7 @@ new Vue({
             id: m[2]
           })
         }
+        this.loading = false
       })
     }
   },
