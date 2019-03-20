@@ -21,17 +21,17 @@
         </p>
       </div>
       
-        <div class="columns has-text-centered" style="position: fixed; bottom: 0; right: 0; left: 0; background-color: lightblue;">
-          <div class="column is-3" v-if="">
+        <div class="columns is-mobile is-multiline has-text-centered" style="position: fixed; bottom: 0; right: 0; left: 0; background-color: lightblue;">
+          <div class="column is-3-desktop is-12-mobile">
             {{ response.length ? response[currentSongIndex].name : '' }}
           </div>
-          <div class="column is-1 is-offset-3">
+          <div class="column is-1-desktop is-offset-3-desktop is-3-mobile">
             <button class="button" @click="currentSongIndex--" disabled="currentSongIndex > 0">previous</button>
           </div>
-          <div class="column is-3">
+          <div class="column is-3-desktop is-6-mobile">
             <audio :src="songUrl" controls autoplay v-if="response.length"></audio>
           </div>
-          <div class="column is-1">
+          <div class="column is-1-desktop is-3-mobile">
             <button class="button" @click="currentSongIndex++" disabled="currentSongIndex < response.length">next</button>
           </div>
           
