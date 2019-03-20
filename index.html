@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>MV</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  </head>
+  
+  <body>
+    <div id="app">
+      <input v-model="query" type="search" @keyup.enter="get">
+      <div v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: grey;' : ''">
+        {{ song.name }}
+      </div>
+      
+      <button @click="currentSongIndex--" v-if="currentSongIndex > 0">previous</button>
+      <audio :src="songUrl" controls autoplay></audio>
+      <button @click="currentSongIndex++" v-if="currentSongIndex < response.length">next</button>
+    </div>
+    
+    <script>
+new Vue({
+  el: '#app',
+  data () {
+    return {
+      baseUrl: 'http://ec2-34-247-52-128.eu-west-1.compute.amazonaws.com:9999/',
+      query: '',
+      response: [],
+      loading: false,
+      currentSongIndex: 0
+    }
+  },
+  methods: {
+    get () {
+      fetch(this.baseUrl + 'get_new_station_by_search?type=song&title=' + this.query)
+      .then(r => r.text())
+      .then(m3u => {
+        var re = /#EXTINF:\d+,(.*)\n.*get_song\?id=(T\S+)\n/g
+        var m
+        while (m = re.exec(m3u)) {
+          this.response.push({
+            name: m[1],
+            id: m[2]
+          })
+        }
+      })
+    }
+  },
+  computed: {
+    songUrl () {
+      return this.response.length ? this.baseUrl + 'get_song?id=' + this.response[this.currentSongIndex].id : ''
+    }
+  }
+})
+    </script>
+  </body>
+</html>
