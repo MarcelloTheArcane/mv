@@ -8,14 +8,16 @@
   
   <body>
     <div id="app">
-      <input v-model="query" type="search" @keyup.enter="get">
-      <div v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: grey;' : ''">
+      <div>
+        <input v-model="query" type="search" @keyup.enter="get" class="input" placeholder="Enter song name and press enter">
+      </div>
+      <div class="content" v-for="(song, id) in response" :key=song.id :style="currentSongIndex === id ? 'background-color: grey;' : ''">
         {{ song.name }}
       </div>
       
-      <button @click="currentSongIndex--" v-if="currentSongIndex > 0">previous</button>
-      <audio :src="songUrl" controls autoplay></audio>
-      <button @click="currentSongIndex++" v-if="currentSongIndex < response.length">next</button>
+      <button class="button" @click="currentSongIndex--" v-if="currentSongIndex > 0">previous</button>
+      <audio :src="songUrl" controls autoplay v-if="response.length"></audio>
+      <button class="button" @click="currentSongIndex++" v-if="currentSongIndex < response.length">next</button>
     </div>
     
     <script>
